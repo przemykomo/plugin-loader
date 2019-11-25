@@ -28,14 +28,17 @@ int main(int argc, char **argv) {
         #ifdef __MINGW32__
         auto libpath_p = entry.path();
         const wchar_t* libpath_wchar = libpath_p.c_str();
-        char* libpath = new char[wcslen(libpath_wchar)];
+        char* libpath = new char[wcslen(libpath_wchar) + 1];
 
-        std::wcstombs(libpath, libpath_wchar, wcslen(libpath_wchar));
+        std::wcstombs(libpath, libpath_wchar, wcslen(libpath_wchar) + 1);
 
         std::cout << "Loading plugin: " << libpath << std::endl;
         //printf("%s\n", librarypath);
         
         libhandle.push_back(LoadLibrary(libpath));
+        
+        delete[] libpath_wchar;
+        delete[] libpath;
         #else
 
         const char* libpath = entry.path().c_str();
@@ -44,11 +47,7 @@ int main(int argc, char **argv) {
         libhandle.push_back(dlopen(entry.path().c_str(), RTLD_LAZY));
         #endif
 
-        #ifdef __MINGW32__
         if (!libhandle.back()) {
-        #else
-        if (libhandle.back() == NULL) {
-        #endif
             printf("ERROR: Could not open library.\n");
             return 1;
         }

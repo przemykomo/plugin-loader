@@ -7,6 +7,6 @@ libs:
 buildwin:
 	i686-w64-mingw32-g++ -Wall -g -std=c++17 -static -o ./win/main main.cpp
 libswin:
-	i686-w64-mingw32-gcc -Wall -g -fPIC -shared -o ./win/plugins/libc.dll ./libc.c
-	i686-w64-mingw32-g++ -Wall -g -fPIC -shared -o ./win/plugins/libcpp.dll ./libcpp.cpp
+	i686-w64-mingw32-gcc -Wall -g -fPIC -shared -o ./win/plugins/libclang.dll ./libc.c
+	i686-w64-mingw32-g++ -Wall -g -fPIC -shared -static -o ./win/plugins/libcpp.dll ./libcpp.cpp
 
